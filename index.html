@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<table>
+			<tr>
+				<td>
+<p>Responses</p>
+
+				</td>
+				<td valign="top">
+<form action="" id="buttons">
+    <input type="submit" onclick="clicked='a'" value="a" />
+    <input type="submit" onclick="clicked='b'" value="b" />
+    <input type="submit" onclick="clicked='c'" value="c" />
+    <input type="submit" onclick="clicked='d'" value="d" />
+</form>
+				</td>
+</tr>
+<tr><td><ul id="messages"></ul></td></tr>
+		</table>
+
+
+
+
+
+
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      var socket = io();
+      var clicked;
+      $('#buttons').submit(function(){
+	
+		
+        socket.emit('chat message', clicked);
+        return false;
+      });
+      socket.on('chat message', function(msg){
+        $('#messages').append($('<li>').text(msg));
+      });
+    </script>
+
+	</body>
+</html>
+
