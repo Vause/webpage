@@ -6,3 +6,10 @@ to install run
 ````
 pip install -r requirements.txt
 ````
+
+on our debian systemc we also needed to install 
+````
+apt-get install libmysqlclient-dev
+````
+
+
