@@ -1,6 +1,0 @@
-{
-  "test_stuff.py::test_broadcast_message": true,
-  "test_stuff.py::test_connect": true,
-  "test_stuff.py::test_disconnect": true,
-  "test_stuff.py::test_message": true
-}
