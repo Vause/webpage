@@ -33,6 +33,7 @@ def index():
 def student_page():
     return render_template('student.html', async_mode=socketio.async_mode)
 
+
 @app.route('/teacher')
 def teacher_page():
     return render_template('teacher.html', async_mode=socketio.async_mode)
