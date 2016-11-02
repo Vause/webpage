@@ -1,1 +1,8 @@
-this is work that needs to be merged into the main repo. We didnt feel like branching. most people in this project are not familiar with git
+[![Build Status](https://travis-ci.org/team-yellow/webpage.svg?branch=master)](https://travis-ci.org/team-yellow/webpage)
+
+This is our main project for Team Yellow
+
+to install run
+````
+pip install -r requirements.txt
+````
