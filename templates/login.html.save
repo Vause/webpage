@@ -25,11 +25,9 @@
  
                 <input type="submit" value="Log in" class="btn btn-primary btn-large btn-block" >
 		<br>
-		<form metho="get" action="/bro">
-			<button type="submit">Continue</button>
-		</from>
-		<br>
-		<a href="http://104.131.96.183:8080/register">Register</a>
+		<a href">
+			<button> Register </button>
+		</a>
 		<br>
 			</div>
 		</div>

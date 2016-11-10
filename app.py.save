@@ -22,10 +22,6 @@ socketio = SocketIO(app, async_mode=async_mode)
 thread = None
 
 
-def this_is_a_func(this):
-    return this
-
-
 def background_thread():
     """Example of how to send server generated events to clients."""
     count = 0
@@ -84,7 +80,7 @@ def student_page():
 	else:
 		return render_template('student.html', async_mode=socketio.async_mode)
             
-@app.route('/register')
+@app.route('/register', methods=['POST'])
 def register_page():
        return render_template('register.html', async_mode=socketio.async_mode)
 
