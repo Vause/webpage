@@ -1,56 +1,35 @@
-<!doctype html>
-<html>
-<body>
+{% block body %}
+  <form action="" method=post class="form-horizontal">
+    <h2>Sign yo self up</h2>
+    <div class="control-group">
+        <div class="controls">
+          <input type="text" id="username" name="username" class="input-xlarge"
+            placeholder="Enter Username" value="{{ request.form.username }}"
+            required>
+        </div>
+    </div>
 
-<div class="form">
-      
-      <ul class="tab-group">
-        <li class="tab"><a href="#login">Log In</a></li>
-      </ul>
-      
-      <div class="tab-content">
-        <div id="signup">   
-          <h1>Sign Up</h1>
-          
-          <form action="/" method="post">
-          
-          <div class="top-row">
-            <div class="field-wrap">
-              <label>
-                First Name<span class="req">*</span>
-              </label>
-              <input type="text" required autocomplete="off" />
-            </div>
-        
-            <div class="field-wrap">
-              <label>
-                Last Name<span class="req">*</span>
-              </label>
-              <input type="text"required autocomplete="off"/>
-            </div>
-          </div>
+    <div class="control-group">
+        <div class="controls">
+          <input type="password" id="password" name="password" class="input-xlarge"
+            placeholder="Enter Password" value="{{ request.form.password }}"
+            required>
+        </div>
+    </div>
 
-          <div class="field-wrap">
-            <label>
-              Email Address<span class="req">*</span>
-            </label>
-            <input type="email"required autocomplete="off"/>
-          </div>
-          
-          <div class="field-wrap">
-            <label>
-              Set A Password<span class="req">*</span>
-            </label>
-            <input type="password"required autocomplete="off"/>
-          </div>
-          
-          <button type="submit" class="button button-block"/>Get Started</button>
-          
-          </form>
-        
-      </div><!-- tab-content -->
-      
-</div> <!-- /form -->
+   <div class="control-group">
+        <div class="controls">
+          <input type="text" id=teacherFlag" name="teacherFlag" class="input-xlarge"
+            placeholder="Is a teacher?" value="{{ request.form.teacherFlag }}"
+            required>
+        </div>
+    </div>
 
-</body>
-</html>
+
+    <div class="control-group">
+        <div class="controls">
+          <button type="submit" class="btn btn-success">Signup</button>
+        </div>
+    </div>
+  </form>
+{% endblock %}

@@ -39,45 +39,49 @@ def background_thread():
 def index():
     if not session.get('logged_in'):
 	    return render_template('login.html')
-    else:	
-            return " <a href = '/logout'>Logout</a>" 
+    else:
+            return "Welcome  <a href='/logout'>Logout</a>"
 
         
 @app.route('/login', methods=['POST'])
 def do_student_login():
-#    if not session.get('logged_in') and request.method == 'GET':
- #       return render_template('login.html')
+
     POST_USERNAME = str(request.form['username'])
     POST_PASSWORD = str(request.form['password'])
 
     Session = sessionmaker(bind=engine)
     s = Session()
     
-#    if request.form['username'] == 'student':
-#        return render_template('student.html', async_mode=socketio.async_mode)
-#	session['logged_in'] = True
-#
-#    elif request.form['username'] == 'teacher':
-#        return render_template('teacher.html', async_mode=socketio.async_mode)
-#	session['logged_in'] = True
-#    else:
-#	return index()
+    if request.form['username'] == 'student' and request.form['student']:
+	render_template('student.html',)
+	session['logged_in'] = True
+    else:
+	return index()
+
+    if request.form['username'] == 'teacher':
+	render_template('teacher.html')
+	session['logged_in'] = True
+    else:
+	return index()
     #TODO: write these next 2 queries to not be in multiple statements
     query = s.query(User).filter(User.username.in_([POST_USERNAME]), User.password.in_([POST_PASSWORD]), (User.teacherFlag == 1))
     result = query.first()
     if result:
+        return render_template('teacher.html', async_mode=socketio.async_mode)
         session['logged_in'] = True
-        session['username'] = POST_USERNAME        
-	return render_template('teacher.html', async_mode=socketio.async_mode)
+        session['username'] = POST_USER        flash('wrong password!')
+
+    return index()
+NAME
     else:
         flash('wrong password!')
 
     query = s.query(User).filter(User.username.in_([POST_USERNAME]), User.password.in_([POST_PASSWORD]), (User.teacherFlag == 0))
     result = query.first()
     if result:
+        return render_template('student.html', async_mode=socketio.async_mode)
         session['logged_in'] = True
         session['username'] = POST_USERNAME
-	return render_template('student.html', async_mode=socketio.async_mode)
     else:
         flash('wrong password!')
 
@@ -92,17 +96,10 @@ def student_page():
 	else:
 		return render_template('student.html', async_mode=socketio.async_mode)
             
-@app.route('/register', methods = ['GET','POST'])
+@app.route('/register')
 def register_page():
-	if request.method == 'GET':
-        	return render_template('register.html', async_mode=socketio.async_mode)
-	Session = sessionmaker(bind=engine)
-	s = Session()
-	user = User(request.form['username'], request.form['password'], request.form['teacherFlag'])
-	s.add(user)
-	s.commit()
-	
-	return index()
+		return render_template('register.html', async_mode=socketio.async_mode)
+
 @app.route('/teacher')
 def teacher_page():
 	if not session.get('logged_in'):
@@ -114,7 +111,7 @@ def teacher_page():
 
 @socketio.on('my_event', namespace='/test')
 def test_message(message):
-    session['logged_in'] = session.get('logged_in', 0) + 1	
+    session['logged_in'] = session.get('logged_in', 0) + 1
     emit('my_response',
          {'data': message['data'], 'count': session['logged_in']})
 
@@ -161,7 +158,7 @@ def close(message):
 def send_room_message(message):
     session['logged_in'] = session.get('logged_in', 0) + 1
     emit('my_response',
-         {'data':  message['data'], 'count': session['username']},
+         {'data': message['data'], 'count': session['logged_in']},
          room=message['room'])
 
 
