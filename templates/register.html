@@ -3,6 +3,7 @@
     <h2>Sign yo self up</h2>
     <div class="control-group">
         <div class="controls">
+	  <label for = "username">Username</label>
           <input type="text" id="username" name="username" class="input-xlarge"
             placeholder="Enter Username" value="{{ request.form.username }}"
             required>
@@ -11,6 +12,7 @@
 
     <div class="control-group">
         <div class="controls">
+	  <label for = "password">Password</label>
           <input type="password" id="password" name="password" class="input-xlarge"
             placeholder="Enter Password" value="{{ request.form.password }}"
             required>
@@ -19,9 +21,9 @@
 
    <div class="control-group">
         <div class="controls">
-          <input type="text" id=teacherFlag" name="teacherFlag" class="input-xlarge"
-            placeholder="Is a teacher?" value="{{ request.form.teacherFlag }}"
-            required>
+          <label for = "teacherFlag">Is a teacher?</label>
+          <input type="checkbox" id=teacherFlag" name="teacherFlag" class="input-xlarge"
+	   value="{{ request.form.teacherFlag }}"
         </div>
     </div>
 
