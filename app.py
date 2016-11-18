@@ -52,36 +52,37 @@ def do_student_login():
 
     Session = sessionmaker(bind=engine)
     s = Session()
-    
-#    if request.form['username'] == 'student':
-#        return render_template('student.html', async_mode=socketio.async_mode)
-#	session['logged_in'] = True
-#
-#    elif request.form['username'] == 'teacher':
-#        return render_template('teacher.html', async_mode=socketio.async_mode)
-#	session['logged_in'] = True
-#    else:
-#	return index()
-    #TODO: write these next 2 queries to not be in multiple statements
-    query = s.query(User).filter(User.username.in_([POST_USERNAME]), User.password.in_([POST_PASSWORD]), (User.teacherFlag == 1))
-    result = query.first()
-    if result:
-        session['logged_in'] = True
+    #we have student and teacher as logins so we dont need the DB
+    if request.form['username'] == 'student':
+	session['logged_in'] = True
         session['username'] = POST_USERNAME        
-	return render_template('teacher.html', async_mode=socketio.async_mode)
-    else:
-        flash('wrong password!')
+        return render_template('student.html', async_mode=socketio.async_mode)
 
-    query = s.query(User).filter(User.username.in_([POST_USERNAME]), User.password.in_([POST_PASSWORD]), (User.teacherFlag == 0))
-    result = query.first()
-    if result:
-        session['logged_in'] = True
-        session['username'] = POST_USERNAME
-	return render_template('student.html', async_mode=socketio.async_mode)
+    elif request.form['username'] == 'teacher':
+	session['logged_in'] = True
+        session['username'] = POST_USERNAME        
+        return render_template('teacher.html', async_mode=socketio.async_mode)
     else:
-        flash('wrong password!')
+       #TODO: write these next 2 queries to not be in multiple statements
+        query = s.query(User).filter(User.username.in_([POST_USERNAME]), User.password.in_([POST_PASSWORD]), (User.teacherFlag == 1))
+        result = query.first()
+        if result:
+            session['logged_in'] = True
+            session['username'] = POST_USERNAME        
+            return render_template('teacher.html', async_mode=socketio.async_mode)
+        else:
+            flash('wrong password!')
 
-    return index()
+        query = s.query(User).filter(User.username.in_([POST_USERNAME]), User.password.in_([POST_PASSWORD]), (User.teacherFlag == 0))
+        result = query.first()
+        if result:
+            session['logged_in'] = True
+            session['username'] = POST_USERNAME
+            return render_template('student.html', async_mode=socketio.async_mode)
+        else:
+            flash('wrong password!')
+
+        return index()
 
 
 
@@ -96,9 +97,10 @@ def student_page():
 def register_page():
 	if request.method == 'GET':
         	return render_template('register.html', async_mode=socketio.async_mode)
+	#might have to remove this session
 	Session = sessionmaker(bind=engine)
 	s = Session()
-	user = User(request.form['username'], request.form['password'], request.form['teacherFlag'])
+	user = User(request.form['username'], request.form['password'], request.form.getlist('teacherFlag'))
 	s.add(user)
 	s.commit()
 	
