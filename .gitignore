@@ -3,6 +3,8 @@
 *.swo
 *.sw*
 
+#password file
+pass
 #nano save files
 *.save*
 # Byte-compiled / optimized / DLL files
