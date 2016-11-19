@@ -9,7 +9,7 @@ from sqlalchemy.orm import sessionmaker
 from tabledef import *
 
 #read in file
-with open('../pass', 'r') as f:
+with open('pass', 'r') as f:
     first_line = f.readline()
 first_line = first_line.rstrip()
 first_line = "test"
