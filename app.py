@@ -7,6 +7,15 @@ import random
 
 from sqlalchemy.orm import sessionmaker
 from tabledef import *
+
+#read in file
+with open('../pass', 'r') as f:
+    first_line = f.readline()
+first_line = first_line.rstrip()
+first_line = "test"
+connection = "mysql+pymysql://test_1:" + first_line + "@104.131.96.183/TeamYellow"
+print ("##############" + connection)
+#engine = create_engine(connection, echo=True)
 engine = create_engine('mysql+pymysql://test_1:testthisisatest1234@104.131.96.183/TeamYellow', echo=True)
 
 # Set this variable to "threading", "eventlet" or "gevent" to test the
@@ -38,8 +47,8 @@ def background_thread():
 @app.route('/')
 def index():
     if not session.get('logged_in'):
-	    return render_template('login.html')
-    else:	
+            return render_template('login.html')
+    else:       
             return " <a href = '/logout'>Logout</a>" 
 
         
@@ -54,12 +63,12 @@ def do_student_login():
     s = Session()
     #we have student and teacher as logins so we dont need the DB
     if request.form['username'] == 'student':
-	session['logged_in'] = True
+        session['logged_in'] = True
         session['username'] = POST_USERNAME        
         return render_template('student.html', async_mode=socketio.async_mode)
 
     elif request.form['username'] == 'teacher':
-	session['logged_in'] = True
+        session['logged_in'] = True
         session['username'] = POST_USERNAME        
         return render_template('teacher.html', async_mode=socketio.async_mode)
     else:
@@ -88,35 +97,35 @@ def do_student_login():
 
 @app.route('/student')
 def student_page():
-	if not session.get('logged_in'):
-		return index()
-	else:
-		return render_template('student.html', async_mode=socketio.async_mode)
+        if not session.get('logged_in'):
+                return index()
+        else:
+                return render_template('student.html', async_mode=socketio.async_mode)
             
 @app.route('/register', methods = ['GET','POST'])
 def register_page():
-	if request.method == 'GET':
-        	return render_template('register.html', async_mode=socketio.async_mode)
-	#might have to remove this session
-	Session = sessionmaker(bind=engine)
-	s = Session()
-	user = User(request.form['username'], request.form['password'], request.form.getlist('teacherFlag'))
-	s.add(user)
-	s.commit()
-	
-	return index()
+        if request.method == 'GET':
+                return render_template('register.html', async_mode=socketio.async_mode)
+        #might have to remove this session
+        Session = sessionmaker(bind=engine)
+        s = Session()
+        user = User(request.form['username'], request.form['password'], request.form.getlist('teacherFlag'))
+        s.add(user)
+        s.commit()
+        
+        return index()
 @app.route('/teacher')
 def teacher_page():
-	if not session.get('logged_in'):
-		return index()
-	else:
-		return render_template('teacher.html', async_mode=socketio.async_mode)
+        if not session.get('logged_in'):
+                return index()
+        else:
+                return render_template('teacher.html', async_mode=socketio.async_mode)
 
 
 
 @socketio.on('my_event', namespace='/test')
 def test_message(message):
-    session['logged_in'] = session.get('logged_in', 0) + 1	
+    session['logged_in'] = session.get('logged_in', 0) + 1      
     emit('my_response',
          {'data': message['data'], 'count': session['logged_in']})
 
@@ -190,7 +199,7 @@ def test_connect():
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
     print('Client disconnected', request.sid)
-	
+        
 @app.route("/logout")
 def logout():
     session['logged_in'] = False
